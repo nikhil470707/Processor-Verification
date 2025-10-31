@@ -1,4 +1,3 @@
-// tb_riscv.v
 `timescale 1ns/1ps
 module tb_riscv;
     reg clk;
@@ -36,7 +35,6 @@ module tb_riscv;
         #20;
         reset = 0;
 
-        // run sufficient cycles for program to finish
         #500;
 
         // checks (read regs from hierarchical DUT)
@@ -55,7 +53,7 @@ module tb_riscv;
         $finish;
     end
 
-    // helper task (Verilog task)
+    // helper task 
     task check_reg;
         input integer idx;
         input integer expected;
