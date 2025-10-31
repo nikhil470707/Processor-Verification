@@ -1,6 +1,4 @@
-// riscv_core.v
-// Single-cycle simple RV32I subset core (pure Verilog)
-
+// Single-cycle simple RV32I subset core 
 `timescale 1ns/1ps
 module riscv_core (
     input  clk,
@@ -179,7 +177,7 @@ module riscv_core (
                 mem_rdata <= mem_rdata;
             end
 
-            // writeback logic - which instructions write registers?
+            // writeback logic
             // We determine by opcode
             case (opcode)
                 7'b0010011: begin // OP-IMM -> write alu_out
@@ -191,7 +189,7 @@ module riscv_core (
                 7'b0000011: begin // LW -> write mem_rdata
                     if (rd != 5'd0) regs[rd] <= mem_rdata;
                 end
-                7'b1101111: begin // JAL -> rd = pc + 4 (pc is old pc)
+                7'b1101111: begin 
                     if (rd != 5'd0) regs[rd] <= pc + 32'd4;
                 end
                 7'b1100111: begin // JALR
@@ -204,7 +202,7 @@ module riscv_core (
         end
     end
 
-    // simple runtime assertions (simulation-only)
+    // (simulation-only)
     always @(posedge clk) begin
         if (!reset) begin
             if (pc[1:0] != 2'b00) begin
@@ -217,9 +215,5 @@ module riscv_core (
             end
         end
     end
-
-    // expose register read for testbench via function
-    // (testbench will access via hierarchical reference: dut.regs[idx])
-    // No extra code required.
 
 endmodule
